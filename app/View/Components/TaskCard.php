@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class ErrorMessage extends Component
+class TaskCard extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class ErrorMessage extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.error-message');
+        return view('components.task-card');
     }
 }

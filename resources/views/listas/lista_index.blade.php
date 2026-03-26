@@ -1,22 +1,24 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Tareas</title>
-</head>
-<body>
-    <h1>Lista de tareas</h1>
-    <p>
-        <a href ="{{ route('listas.create') }}">Añadir una nueva tarea </a>
-    </p>
-    <ul>
-        @foreach ($listas as $lista )
-        <li>
-            Titulo de la tarea: <a href="{{ route('listas.show', $lista) }}">{{ $lista->titulo }}</a> |Puntos a consederar: {{ $lista->contenido }} 
-            |Vigencia de la tarea: {{ $lista->vigencia->format('d/m/Y') }} 
-        </li>
+
+<x-layout>
+    <x-slot:title>Lista de tareas</x-slot:title>
+
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-extrabold text-gray-900">Lista de tareas</h1>
+        <br><br>
+        <a href="{{ route('listas.create') }}" class="text-blue-600 hover:underline">
+            + Añadir tarea
+        </a>
+    </div>
+
+    <br><br>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        @foreach ($listas as $lista)
+            <x-task-card 
+                :titulo="$lista->titulo" 
+                :contenido="$lista->contenido" 
+                :vigencia="$lista->vigencia" 
+                :id="$lista->id"
+            />
         @endforeach
-    </ul>
-</body>
-</html>
+    </div>
+</x-layout>

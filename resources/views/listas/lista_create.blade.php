@@ -1,48 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listas_index</title>
-</head>
-<body>
-    <h1>Agregar nueva tarea</h1>
-    <p>
-        <a href ="{{ route('listas.index') }}">Volver a index</a>
-    </p>
+<x-layout>
+    <x-slot:title>Agregar Tarea</x-slot:title>
 
+    <h1 class="text-2xl font-bold mb-4">Agregar Tarea</h1>
+    
     @if (session('info'))
-    <div style="background-color: #4caf50; color: white; padding: 10px; border-radius: 5px; margin-bottom: 20px; font-family: sans-serif;">
-        {{ session('info') }}
-    </div>
+        <x-alert type="success">{{ session('info') }}</x-alert>
     @endif
 
-
-    <form action="{{ route('listas.store') }}" method="POST">
+    <form action="{{ route('listas.store') }}" method="POST" class="bg-white p-6 rounded-lg shadow-md">
         @csrf
-        <label for="titulo">Titulo de la tarea:</label>
-        <input type="text" id="titulo" name="titulo" class="form-control @error('titulo') is-invalid @enderror" value="{{ old('titulo') }}">
-        @error('titulo')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-        <br><br>
+        
 
-        <label for="contenido">Puntos a consederar:</label>
-        <textarea id="contenido" name="contenido" rows="4" cols="50">{{ old('contenido', $lista->contenido ?? '') }}</textarea>
-        @error('contenido')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-        <br><br>
+        <x-form-field 
+            name="titulo" 
+            label="Título de la tarea"  
+        />
+        
+        <x-form-field 
+            name="contenido" 
+            label="Puntos a considerar" 
+            type="textarea"
+        />
+        
+        <x-form-field 
+            name="vigencia" 
+            label="Vigencia" 
+            type="date" 
+        />
 
-        <label for="vigencia">Vigencia de la tarea:</label>
-        <input type="date" id="vigencia" name="vigencia" value="{{ old('vigencia', isset($lista) ? \Carbon\Carbon::parse($lista->vigencia)->format('Y-m-d') : '') }}" class="form-control @error('vigencia') is-invalid @enderror" value="{{ old('vigencia') }}">
-        @error('vigencia')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-        <br><br>
+        <div class="flex gap-2">
+            <x-button>Crear Tarea</x-button>
+            <a href="{{ route('listas.index') }}" class="px-4 py-2 bg-gray-200 rounded-lg text-gray-700 font-bold">Cancelar</a>
+        </div>
 
-        <input type="submit" value="Guardar tarea">
-</form>
-      
-</body>
-</html>
+    </form>
+</x-layout>
+
